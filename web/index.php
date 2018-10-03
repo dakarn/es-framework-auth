@@ -1,6 +1,6 @@
 <?php
 session_start();
 
-define('IS_WEB', true);
+define('IS_AUTH', true);
 
 include '../bootstrap-auth.php';

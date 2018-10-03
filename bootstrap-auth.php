@@ -25,7 +25,7 @@ $application = (new \App\AuthApp())
 	->setEnvironment($env)
 	->setAppEvent($event)
 	->setAppKernel($appKernel)
-	->setApplicationType('Web');
+	->setApplicationType('Auth');
 
 set_exception_handler(function($e) use($application) {
 	$application->outputException($e);
