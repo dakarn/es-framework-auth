@@ -9,12 +9,6 @@ define('APP_KERNEL', PATH_APP . 'AppKernel.php');
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-$event = new App\AppEvent();
-$event = $event->installEvents(new \System\EventListener\EventManager());
-
-$appKernel = new \App\AppKernel();
-$appKernel->installMiddlewares()->installProviders();
-
 $env = 'PROD';
 
 if (IS_DEV) {
@@ -23,12 +17,14 @@ if (IS_DEV) {
 
 $application = (new \App\AuthApp())
 	->setEnvironment($env)
-	->setAppEvent($event)
-	->setAppKernel($appKernel)
 	->setApplicationType('Auth');
 
 set_exception_handler(function($e) use($application) {
 	$application->outputException($e);
+});
+
+set_error_handler(function($errno, $errstr, $errfile, $errline) use($application) {
+	$application->outputError($errno, $errstr, $errfile, $errline);
 });
 
 register_shutdown_function(function() use($application) {

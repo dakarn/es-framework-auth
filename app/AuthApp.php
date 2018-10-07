@@ -8,19 +8,19 @@
 
 namespace App;
 
+use System\EventListener\EventManager;
 use System\Kernel\TypesApp\AbstractApplication;
 use Http\Request\ServerRequest;
+use System\Logger\LoggerElasticSearch;
 use System\Logger\LogLevel;
 use Exception\ExceptionListener\ExceptionListener;
-use System\Database\DB;
-use System\Logger\LoggerStorage;
 use Http\Response\Response;
 use System\EventListener\EventTypes;
 use Http\Response\API;
 use Http\Middleware\StorageMiddleware;
 use Providers\StorageProviders;
 
-class AuthApp extends AbstractApplication
+class AuthApp extends AbstractApplication implements AuthAppInterface
 {
 	const ERROR_500 = '500 Internal Server Error';
 
@@ -35,17 +35,9 @@ class AuthApp extends AbstractApplication
 	private $response;
 
 	/**
-	 * @param AppKernel $appKernel
-	 * @return AbstractApplication
+	 * @var AppKernel
 	 */
-	public function setAppKernel(AppKernel $appKernel): AbstractApplication
-	{
-		parent::setAppKernel($appKernel);
-		StorageProviders::add($appKernel->getProviders());
-		StorageMiddleware::add($appKernel->getMiddlewares());
-
-		return $this;
-	}
+	private $appKernel;
 
 	/**
 	 * @return AuthApp
@@ -88,10 +80,26 @@ class AuthApp extends AbstractApplication
 		}
 	}
 
+	/**
+	 * @return void
+	 */
+	public function setupClass()
+	{
+		$appEvent = new AppEvent();
+		$this->eventManager = $appEvent->installEvents(new EventManager());
+
+		$this->appKernel = new AppKernel();
+		$this->appKernel
+			->installMiddlewares()
+			->installProviders();
+
+		StorageProviders::add($this->appKernel->getProviders());
+		StorageMiddleware::add($this->appKernel->getMiddlewares());
+	}
+
 	public function terminate()
 	{
-		DB::disconnect();
-		LoggerStorage::create()->releaseLog();
+		LoggerElasticSearch::create()->releaseLog();
 	}
 
 	/**
