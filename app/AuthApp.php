@@ -115,6 +115,8 @@ class AuthApp extends AbstractApplication implements AuthAppInterface
 		}
 
 		(new Response())
+			->withHeader('Access-Control-Allow-Origin','*')
+			->withHeader('Content-type','application/json')
 			->withBody(new API([
 				'success' => false,
 				'error'   => $error,

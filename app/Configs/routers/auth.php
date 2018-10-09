@@ -22,4 +22,11 @@ return [
 		'action'     => 'logout',
 		'allow'      => ['POST'],
 	],
+	[
+		'name'       => 'logoutAllGadget',
+		'path'       => 'oauth/logout-all',
+		'controller' => 'Controller:LogoutController',
+		'action'     => 'logoutAllGadget',
+		'allow'      => ['POST'],
+	],
 ];

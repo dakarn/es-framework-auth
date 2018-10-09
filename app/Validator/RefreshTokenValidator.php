@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: user
- * Date: 01.10.2018
- * Time: 22:03
+ * Date: 08.10.2018
+ * Time: 14:40
  */
 
 namespace App\Validator;
@@ -12,8 +12,9 @@ use Helper\Util;
 use System\Validators\AbstractValidator;
 use System\Validators\Validators;
 
-class AuthAppValidator extends AbstractValidator
+class RefreshTokenValidator extends AbstractValidator
 {
+
 	/**
 	 * @var bool
 	 */
@@ -40,14 +41,6 @@ class AuthAppValidator extends AbstractValidator
 
 		if (empty($_POST['clientSecret'])) {
 			$this->stackErrors['clientSecret'] = $message['clientSecret'];
-		}
-
-		if (empty($_POST['login'])) {
-			$this->stackErrors['login'] = $message['login'];
-		}
-
-		if (empty($_POST['password'])) {
-			$this->stackErrors['password'] = $message['password'];
 		}
 	}
 }
