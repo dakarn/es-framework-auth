@@ -43,7 +43,7 @@ class AuthController extends AbstractController
 				return $this->responseApiBad($user->getErrors());
 			}
 
-			$authResult = Authentication::create()->processAuthentication($user, $authAppRepos->getResult()->getAccessTTL());
+			$authResult = Authentication::create()->processAuthentication($user, $authAppRepos);
 
 			if (!$authResult->isAuth()) {
 				return $this->responseApiBadWithError($validator, 'error-query', Validators::COMMON);

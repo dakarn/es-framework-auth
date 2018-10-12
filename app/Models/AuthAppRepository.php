@@ -18,7 +18,9 @@ class AuthAppRepository
 	 */
 	private $isLoaded = false;
 
-	/** @var AuthApp */
+	/**
+	 * @var AuthApp
+	 */
 	private $result;
 
 	/**

@@ -10,20 +10,44 @@ namespace App\Models;
 
 class AuthApp
 {
+	/**
+	 * @var mixed|string
+	 */
 	private $clientId = '';
 
+	/**
+	 * @var mixed|string
+	 */
 	private $clientSecret = '';
 
+	/**
+	 * @var mixed|string
+	 */
 	private $description = '';
 
+	/**
+	 * @var int|mixed
+	 */
 	private $accessTTL = 0;
 
+	/**
+	 * @var int|mixed
+	 */
 	private $refreshTTL = 0;
 
+	/**
+	 * @var mixed|string
+	 */
 	private $created = '';
 
+	/**
+	 * @var mixed|string
+	 */
 	private $site = '';
 
+	/**
+	 * @var mixed|string
+	 */
 	private $type = '';
 
 	/**
@@ -34,8 +58,15 @@ class AuthApp
 		return $this->type;
 	}
 
+	/**
+	 * @var array|mixed
+	 */
 	private $allowIps = [];
 
+	/**
+	 * AuthApp constructor.
+	 * @param array $props
+	 */
 	public function __construct(array $props = [])
 	{
 		if (empty($props)) {

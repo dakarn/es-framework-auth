@@ -13,7 +13,6 @@ use System\Kernel\TypesApp\AbstractApplication;
 use Http\Request\ServerRequest;
 use System\Logger\LoggerElasticSearch;
 use System\Logger\LogLevel;
-use Exception\ExceptionListener\ExceptionListener;
 use Http\Response\Response;
 use System\EventListener\EventTypes;
 use Http\Response\API;
@@ -75,7 +74,6 @@ class AuthApp extends AbstractApplication implements AuthAppInterface
 			$this->handle();
 		} catch(\Throwable $e) {
 			$this->log(LogLevel::ERROR, $e->getTraceAsString());
-			new ExceptionListener($e);
 			$this->outputException($e);
 		}
 	}
