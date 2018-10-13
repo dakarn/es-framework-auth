@@ -26,6 +26,8 @@ class AuthAppValidator extends AbstractValidator
 	{
 		$message = Util::getFormMessage(Validators::AUTH_APP);
 
+		$this->validateCSRFToken();
+
 		if (!$this->isPost()) {
 			$this->stackErrors['query'] = $message['query'];
 		}
