@@ -106,7 +106,7 @@ class AuthApp extends AbstractApplication implements AuthAppInterface
 	 */
 	public function customOutputError(\Throwable $e)
 	{
-		if ($this->env == self::ENV_TYPE['DEV']) {
+		if ($this->env == self::ENV_DEV) {
 			$error = 'Exception: ' . $e->getMessage() .' in ' . $e->getFile() . ' on line ' . $e->getLine();
 		} else {
 			$error = self::ERROR_500;
