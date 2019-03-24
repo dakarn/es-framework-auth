@@ -8,9 +8,10 @@
 
 namespace App\Controller;
 
-use App\Models\AuthAppRepository;
+use System\Auth\ClientAppRepository;
 use App\Validator\AuthAppValidator;
 use App\Validator\RefreshTokenValidator;
+use Helper\RepositoryHelper\StorageRepository;
 use Http\Response\Response;
 use Models\User\User;
 use System\Auth\Authentication\Authentication;
@@ -29,21 +30,21 @@ class AuthController extends AbstractController
 
 		if ($validator->isValid()) {
 
-			$authAppRepos = new AuthAppRepository();
-			$authAppRepos->loadClientApp($validator);
+			/** @var ClientAppRepository $authAppRepository */
+			$authAppRepository = StorageRepository::getRepository(ClientAppRepository::class);
+			$authAppRepository->loadClientApp($validator);
 
-			if (!$authAppRepos->isLoaded()) {
+			if (!$authAppRepository->isLoaded()) {
 				return $this->responseApiBadWithError($validator, 'unknown-clients', Validators::COMMON);
 			}
 
-			$user = User::current();
-			$user->loadByEmailOrLogin($validator);
+			$user = User::loadByEmailOrLogin($validator);
 
 			if (!$user->isLoaded()) {
 				return $this->responseApiBad($user->getErrors());
 			}
 
-			$authResult = Authentication::create()->processAuthentication($user, $authAppRepos);
+			$authResult = Authentication::create()->processAuthentication($user);
 
 			if (!$authResult->isAuth()) {
 				return $this->responseApiBadWithError($validator, 'error-query', Validators::COMMON);
@@ -65,16 +66,17 @@ class AuthController extends AbstractController
 
 		if ($validator->isValid()) {
 
-			$authAppRepos = new AuthAppRepository();
-			$authAppRepos->loadClientApp($validator);
+			/** @var ClientAppRepository $clientAppRepository */
+			$clientAppRepository = StorageRepository::getRepository(ClientAppRepository::class);
+			$clientAppRepository->loadClientApp($validator);
 
-			if (!$authAppRepos->isLoaded()) {
+			if (!$clientAppRepository->isLoaded()) {
 				return $this->responseApiBadWithError($validator, 'unknown-clients', Validators::COMMON);
 			}
 
-			$isUpdate = Authentication::create()->processUpdateRefreshToken($validator, $authAppRepos);
+			$updateResult = Authentication::create()->processUpdateRefreshToken($validator);
 
-			if (!$isUpdate) {
+			if (!$updateResult->isUpdate()) {
 				return $this->responseApiBad($validator->getErrorsApi());
 			}
 
