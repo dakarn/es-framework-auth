@@ -6,18 +6,18 @@
  * Time: 22:47
  */
 
-namespace App\Controller;
+namespace ES\App\Controller;
 
-use Http\Response\Response;
-use Models\User\User;
-use System\Controller\AbstractController;
-use System\Validators\Validators;
+use ES\Kernel\Http\Response\Response;
+use ES\Kernel\Models\User\User;
+use ES\Kernel\Controller\AbstractController;
+use ES\Kernel\Validators\Validators;
 
 class LogoutController extends AbstractController
 {
 	/**
 	 * @return Response
-	 * @throws \Exception\FileException
+	 * @throws \ES\Kernel\Exception\FileException
 	 */
 	public function logoutAction(): Response
 	{
@@ -42,7 +42,7 @@ class LogoutController extends AbstractController
 
 	/**
 	 * @return Response
-	 * @throws \Exception\FileException
+	 * @throws \ES\Kernel\Exception\FileException
 	 */
 	public function logoutAllGadgetAction(): Response
 	{

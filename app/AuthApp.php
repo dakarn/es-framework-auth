@@ -6,18 +6,18 @@
  * Time: 23:27
  */
 
-namespace App;
+namespace ES\App;
 
-use System\EventListener\EventManager;
-use System\Kernel\TypesApp\AbstractApplication;
-use Http\Request\ServerRequest;
-use System\Logger\LoggerElasticSearch;
-use System\Logger\LogLevel;
-use Http\Response\Response;
-use System\EventListener\EventTypes;
-use Http\Response\API;
-use Http\Middleware\StorageMiddleware;
-use Providers\StorageProviders;
+use ES\Kernel\EventListener\EventManager;
+use ES\Kernel\Kernel\TypesApp\AbstractApplication;
+use ES\Kernel\Http\Request\ServerRequest;
+use ES\Kernel\Logger\LoggerElasticSearchStorage;
+use ES\Kernel\Logger\LogLevel;
+use ES\Kernel\Http\Response\Response;
+use ES\Kernel\EventListener\EventTypes;
+use ES\Kernel\Http\Response\API;
+use ES\Kernel\Http\Middleware\StorageMiddleware;
+use ES\Kernel\Providers\StorageProviders;
 
 class AuthApp extends AbstractApplication implements AuthAppInterface
 {
@@ -40,7 +40,7 @@ class AuthApp extends AbstractApplication implements AuthAppInterface
 
 	/**
 	 * @return AuthApp
-	 * @throws \Exception\MiddlewareException
+	 * @throws \ES\Kernel\Exception\MiddlewareException
 	 */
 	public function handle(): AuthApp
 	{
@@ -63,7 +63,6 @@ class AuthApp extends AbstractApplication implements AuthAppInterface
 	}
 
 	/**
-	 * @throws \Exception\FileException
 	 * @throws \Throwable
 	 */
 	public function run()
@@ -95,9 +94,13 @@ class AuthApp extends AbstractApplication implements AuthAppInterface
 		StorageMiddleware::add($this->appKernel->getMiddlewares());
 	}
 
+	/**
+	 * @throws \ES\Kernel\Exception\FileException
+	 * @throws \ES\Kernel\Exception\HttpException
+	 */
 	public function terminate()
 	{
-		LoggerElasticSearch::create()->releaseLog();
+		LoggerElasticSearchStorage::create()->releaseLogs();
 	}
 
 	/**

@@ -6,11 +6,11 @@
  * Time: 14:40
  */
 
-namespace App\Validator;
+namespace ES\App\Validator;
 
-use Helper\Util;
-use System\Validators\AbstractValidator;
-use System\Validators\Validators;
+use ES\Kernel\Helper\Util;
+use ES\Kernel\Validators\AbstractValidator;
+use ES\Kernel\Validators\Validators;
 
 class RefreshTokenValidator extends AbstractValidator
 {
@@ -21,7 +21,7 @@ class RefreshTokenValidator extends AbstractValidator
 	public $isUseFlashErrors = false;
 
 	/**
-	 * @throws \Exception\FileException
+	 * @throws \ES\Kernel\Exception\FileException
 	 */
 	public function validate(): void
 	{

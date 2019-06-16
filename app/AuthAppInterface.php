@@ -6,7 +6,7 @@
  * Time: 13:37
  */
 
-namespace App;
+namespace ES\App;
 
 
 interface AuthAppInterface

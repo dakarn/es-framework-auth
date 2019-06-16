@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace ES\App;
 
-use System\EventListener\EventManager;
-use System\ES;
+use ES\Kernel\EventListener\EventManager;
+use ES\Kernel\Helper\ES;
 
 final class AppEvent
 {

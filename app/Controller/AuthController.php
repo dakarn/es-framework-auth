@@ -6,17 +6,17 @@
  * Time: 22:38
  */
 
-namespace App\Controller;
+namespace ES\App\Controller;
 
-use System\Auth\ClientAppRepository;
-use App\Validator\AuthAppValidator;
-use App\Validator\RefreshTokenValidator;
-use Helper\RepositoryHelper\StorageRepository;
-use Http\Response\Response;
-use Models\User\User;
-use System\Auth\Authentication\Authentication;
-use System\Controller\AbstractController;
-use System\Validators\Validators;
+use ES\Kernel\Auth\ClientAppRepository;
+use ES\App\Validator\AuthAppValidator;
+use ES\App\Validator\RefreshTokenValidator;
+use ES\Kernel\Helper\RepositoryHelper\StorageRepository;
+use ES\Kernel\Http\Response\Response;
+use ES\Kernel\Models\User\User;
+use ES\Kernel\Auth\Authentication\Authentication;
+use ES\Kernel\Controller\AbstractController;
+use ES\Kernel\Validators\Validators;
 
 class AuthController extends AbstractController
 {
@@ -50,7 +50,7 @@ class AuthController extends AbstractController
 				return $this->responseApiBadWithError($validator, 'error-query', Validators::COMMON);
 			}
 
-			return $this->responseApiOK($authResult->getCreds());
+			return $this->responseApiOK($authResult->getCredentials());
 		} else {
 			return $this->responseApiBad($validator->getErrorsApi());
 		}
@@ -80,7 +80,7 @@ class AuthController extends AbstractController
 				return $this->responseApiBad($validator->getErrorsApi());
 			}
 
-			return $this->responseApiOK(Authentication::create()->getCreds());
+			return $this->responseApiOK(Authentication::create()->getCredentials());
 		} else {
 			return $this->responseApiBad($validator->getErrorsApi());
 		}

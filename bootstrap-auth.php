@@ -9,28 +9,16 @@
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-$env = 'PROD';
+$env = ES\App\AuthApp::ENV_PROD;
 
 if (IS_DEV) {
-	$env = 'DEV';
+	$env = ES\App\AuthApp::ENV_DEV;
 	include_once 'dev.php';
 }
 
-$application = (new \App\AuthApp())
+$application = (new ES\App\AuthApp())
 	->setEnvironment($env)
 	->setApplicationType('Auth');
-
-\set_exception_handler(function($e) use($application) {
-	$application->outputException($e);
-});
-
-\set_error_handler(function($errno, $errstr, $errfile, $errline) use($application) {
-	$application->outputError($errno, $errstr, $errfile, $errline);
-});
-
-\register_shutdown_function(function() use($application) {
-	System\Kernel\ShutdownScript::run();
-});
 
 $application->run();
 $application->outputResponse();
