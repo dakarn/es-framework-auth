@@ -30,8 +30,7 @@ class AuthController extends AbstractController
 
 		if ($validator->isValid()) {
 
-			/** @var ClientAppRepository $authAppRepository */
-			$authAppRepository = StorageRepository::getRepository(ClientAppRepository::class);
+			$authAppRepository = StorageRepository::getClientAppRepository();
 			$authAppRepository->loadClientApp($validator);
 
 			if (!$authAppRepository->isLoaded()) {
@@ -44,7 +43,7 @@ class AuthController extends AbstractController
 				return $this->responseApiBad($user->getErrors());
 			}
 
-			$authResult = Authentication::create()->processAuthentication($user);
+			$authResult = Authentication::create()->processAuthentication($user, $validator);
 
 			if (!$authResult->isAuth()) {
 				return $this->responseApiBadWithError($validator, 'error-query', Validators::COMMON);
@@ -66,8 +65,7 @@ class AuthController extends AbstractController
 
 		if ($validator->isValid()) {
 
-			/** @var ClientAppRepository $clientAppRepository */
-			$clientAppRepository = StorageRepository::getRepository(ClientAppRepository::class);
+			$clientAppRepository = StorageRepository::getClientAppRepository();
 			$clientAppRepository->loadClientApp($validator);
 
 			if (!$clientAppRepository->isLoaded()) {
